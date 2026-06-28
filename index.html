@@ -1,0 +1,1052 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Chaos Manager</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: light;
+      --paper: #f5f0e8;
+      --surface: #fffdf8;
+      --ink: #111111;
+      --muted: #474747;
+      --red: #ef2d2d;
+      --red-dark: #c91f1f;
+      --yellow: #ffcc00;
+      --blue: #d3e4fe;
+      --blue-strong: #0055ff;
+      --disabled: #efefef;
+      --shadow: 6px 6px 0 var(--ink);
+      --shadow-sm: 4px 4px 0 var(--ink);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      background: var(--paper);
+    }
+
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: "Space Grotesk", Inter, ui-sans-serif, system-ui, sans-serif;
+      font-size: 16px;
+      line-height: 1.45;
+      border-top: 8px solid var(--red);
+    }
+
+    button,
+    textarea,
+    input {
+      font: inherit;
+    }
+
+    button {
+      min-height: 48px;
+      border: 3px solid var(--ink);
+      border-radius: 0;
+      background: var(--surface);
+      color: var(--ink);
+      cursor: pointer;
+      font-size: 0.95rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      box-shadow: var(--shadow-sm);
+      transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease, color 120ms ease;
+    }
+
+    button:hover:not(:disabled) {
+      background: var(--yellow);
+      color: var(--ink);
+    }
+
+    button:active:not(:disabled) {
+      transform: translate(4px, 4px);
+      box-shadow: 0 0 0 var(--ink);
+    }
+
+    button:disabled {
+      cursor: not-allowed;
+      opacity: 0.6;
+      color: #6e6e6e;
+      background: var(--disabled);
+      box-shadow: 4px 4px 0 #777777;
+      border-color: #777777;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.75rem;
+      font-size: 0.9rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    input,
+    textarea,
+    pre {
+      width: 100%;
+      border: 3px solid var(--ink);
+      border-radius: 0;
+      background: var(--surface);
+      color: var(--ink);
+      outline: none;
+    }
+
+    input,
+    textarea {
+      padding: 1.25rem;
+    }
+
+    input:focus,
+    textarea:focus {
+      box-shadow: var(--shadow);
+    }
+
+    textarea {
+      min-height: 380px;
+      resize: vertical;
+      font-size: 1.1rem;
+      font-weight: 600;
+      line-height: 1.55;
+    }
+
+    .app {
+      min-height: 100vh;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 1.35rem clamp(1rem, 5vw, 5rem);
+      border-bottom: 3px solid var(--ink);
+      background: var(--surface);
+      z-index: 4;
+    }
+
+    h1,
+    h2 {
+      margin: 0;
+      line-height: 1.1;
+      letter-spacing: 0;
+    }
+
+    h1 {
+      font-size: clamp(1.4rem, 3vw, 1.75rem);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    h2 {
+      font-size: clamp(1.35rem, 2.4vw, 2rem);
+      text-transform: uppercase;
+      letter-spacing: 0;
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.65rem;
+      color: var(--ink);
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      white-space: nowrap;
+      border: 3px solid var(--ink);
+      padding: 0.55rem 0.75rem;
+      background: var(--blue);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .status-dot {
+      width: 0.62rem;
+      height: 0.62rem;
+      border-radius: 0;
+      background: var(--blue-strong);
+      border: 2px solid var(--ink);
+    }
+
+    .status[data-tone="error"] .status-dot {
+      background: var(--red);
+    }
+
+    .status[data-tone="busy"] .status-dot {
+      background: var(--yellow);
+    }
+
+    main {
+      display: grid;
+      grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+      gap: clamp(1.25rem, 2.4vw, 1.8rem);
+      width: min(100%, 1080px);
+      margin: 0 auto;
+      padding: clamp(2rem, 5vw, 3.25rem) clamp(1rem, 5vw, 2.5rem);
+      background: var(--paper);
+    }
+
+    .pane {
+      min-width: 0;
+      background: transparent;
+      padding: 0;
+    }
+
+    .control-stack {
+      display: grid;
+      gap: 1.25rem;
+      min-width: 0;
+    }
+
+    .hint {
+      margin: 0;
+      color: var(--muted);
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .primary {
+      width: max-content;
+      min-width: 230px;
+      border-color: var(--ink);
+      background: var(--red);
+      color: white;
+      padding: 0 1.5rem;
+    }
+
+    .primary:hover:not(:disabled) {
+      background: var(--ink);
+      color: white;
+    }
+
+    .events-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1.25rem;
+      border-bottom: 3px solid var(--ink);
+    }
+
+    .count {
+      color: var(--ink);
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      white-space: nowrap;
+      background: var(--yellow);
+      border: 2px solid var(--ink);
+      padding: 0.25rem 0.45rem;
+    }
+
+    .events {
+      overflow: auto;
+      border: 0;
+      background: transparent;
+      min-height: 380px;
+      max-height: 54vh;
+      display: grid;
+      align-content: start;
+      gap: 1rem;
+    }
+
+    .event-card {
+      position: relative;
+      display: grid;
+      gap: 0.5rem;
+      padding: 1rem 3.6rem 1rem 1.35rem;
+      border: 3px solid var(--ink);
+      background: var(--surface);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+    }
+
+    .event-card::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 8px;
+      background: var(--red);
+      border-right: 3px solid var(--ink);
+    }
+
+    .event-card:nth-child(even)::before {
+      background: var(--blue-strong);
+    }
+
+    .event-card:hover {
+      background: #fff4b8;
+    }
+
+    .event-time {
+      width: fit-content;
+      border: 2px solid var(--ink);
+      background: #ffffff;
+      padding: 0.25rem 0.45rem;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .event-title {
+      margin: 0;
+      font-size: 1.22rem;
+      line-height: 1.15;
+      font-weight: 800;
+    }
+
+    .event-description {
+      margin: 0;
+      color: var(--muted);
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+
+    .event-card [contenteditable="true"] {
+      outline: none;
+    }
+
+    .event-card [contenteditable="true"]:focus {
+      background: #fff3a6;
+      box-shadow: 0 0 0 3px var(--ink);
+    }
+
+    .event-card .remove {
+      position: absolute;
+      top: 0.8rem;
+      right: 0.8rem;
+      background: #ffffff;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 620px;
+      table-layout: fixed;
+      background: var(--surface);
+      border: 3px solid var(--ink);
+    }
+
+    th:nth-child(1),
+    td:nth-child(1) {
+      width: 26%;
+    }
+
+    th:nth-child(2),
+    td:nth-child(2) {
+      width: 17%;
+    }
+
+    th:nth-child(3),
+    td:nth-child(3) {
+      width: 18%;
+    }
+
+    th:nth-child(4),
+    td:nth-child(4) {
+      width: 29%;
+    }
+
+    th:nth-child(5),
+    td:nth-child(5) {
+      width: 10%;
+    }
+
+    th,
+    td {
+      padding: 0.8rem 0.9rem;
+      border-bottom: 3px solid var(--ink);
+      border-right: 3px solid var(--ink);
+      text-align: left;
+      vertical-align: top;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    th:last-child,
+    td:last-child {
+      border-right: 0;
+    }
+
+    th {
+      background: var(--blue);
+      color: var(--ink);
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    td[contenteditable="true"] {
+      min-width: 8rem;
+      outline: none;
+    }
+
+    td[contenteditable="true"]:focus {
+      background: #fff3a6;
+      box-shadow: inset 0 0 0 3px var(--ink);
+    }
+
+    .remove {
+      display: inline-grid;
+      place-items: center;
+      width: 36px;
+      min-height: 36px;
+      padding: 0;
+      box-shadow: 2px 2px 0 var(--ink);
+    }
+
+    .empty {
+      display: grid;
+      place-items: center;
+      min-height: 380px;
+      border: 3px solid var(--ink);
+      border-radius: 0;
+      color: var(--ink);
+      background: var(--surface);
+      text-align: center;
+      padding: 2rem;
+      box-shadow: var(--shadow);
+      font-family: "JetBrains Mono", monospace;
+      font-size: 1rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .empty::before {
+      content: "▱";
+      display: block;
+      margin-bottom: 1rem;
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 3rem;
+      line-height: 1;
+    }
+
+    .pane[aria-labelledby="eventsTitle"] {
+      border: 3px solid var(--ink);
+      background: var(--surface);
+      box-shadow: var(--shadow);
+      padding: clamp(1.25rem, 3vw, 1.8rem);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .panel-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 1rem;
+      margin-top: 1.5rem;
+      padding-top: 1.25rem;
+      border-top: 3px solid var(--ink);
+    }
+
+    .bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      width: 100%;
+      padding: 1.5rem clamp(1rem, 5vw, 5rem) 2rem;
+      border-top: 3px solid var(--ink);
+      background: var(--surface);
+    }
+
+    .footer-brand {
+      font-size: 1.15rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .footer-nav {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .footer-nav a {
+      color: var(--ink);
+      border: 2px solid var(--ink);
+      box-shadow: 3px 3px 0 var(--ink);
+      padding: 0.25rem 0.7rem;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+
+    .json-store {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+    }
+
+    pre {
+      min-height: 170px;
+      max-height: 260px;
+      overflow: auto;
+      margin: 0;
+      padding: 1rem;
+      font-family: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+      font-size: 0.82rem;
+      white-space: pre-wrap;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .actions {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      min-width: 280px;
+      padding-top: 1.85rem;
+    }
+
+    .actions button {
+      padding: 0 1rem;
+    }
+
+    .icon {
+      width: 18px;
+      height: 18px;
+      display: inline-block;
+      vertical-align: -3px;
+      margin-right: 0.45rem;
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 700;
+    }
+
+    .remove .icon {
+      margin: 0;
+    }
+
+    @media (max-width: 960px) {
+      main,
+      .bottom {
+        grid-template-columns: 1fr;
+      }
+
+      main {
+        width: 100%;
+      }
+
+      .actions {
+        justify-content: flex-start;
+        min-width: 0;
+        padding-top: 0;
+      }
+
+      .actions button {
+        flex: 1 1 160px;
+      }
+
+      .panel-actions,
+      .bottom {
+        align-items: stretch;
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .topbar,
+      .bottom {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      h1 {
+        font-size: 1.35rem;
+      }
+
+      h2 {
+        font-size: 1.3rem;
+      }
+
+      textarea {
+        min-height: 260px;
+      }
+
+      table,
+      thead,
+      tbody,
+      tr,
+      th,
+      td {
+        display: block;
+      }
+
+      table {
+        min-width: 0;
+      }
+
+      thead {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+      }
+
+      tbody {
+        display: grid;
+        gap: 0.75rem;
+        padding: 0.75rem;
+      }
+
+      tr {
+        border: 3px solid var(--ink);
+        border-radius: 0;
+        overflow: hidden;
+      }
+
+      tr:last-child td,
+      td {
+        border-bottom: 3px solid var(--ink);
+        border-right: 0;
+      }
+
+      td:last-child {
+        border-bottom: 0;
+      }
+
+      td::before {
+        content: attr(data-label);
+        display: block;
+        margin-bottom: 0.25rem;
+        color: var(--muted);
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.72rem;
+        font-weight: 800;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+      }
+
+      td[data-label="Remove"] {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      td[data-label="Remove"]::before {
+        margin-bottom: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <h1>Chaos Manager</h1>
+      <div class="status" id="status" data-tone="ready" role="status" aria-live="polite">
+        <span class="status-dot" aria-hidden="true"></span>
+        <span id="statusText">Ready</span>
+      </div>
+    </header>
+
+    <main>
+      <section class="pane" aria-labelledby="inputTitle">
+        <div class="control-stack">
+          <div>
+            <label id="inputTitle" for="brainDump">Input</label>
+            <textarea id="brainDump" spellcheck="true">I have English tutoring tomorrow from 16:00 to 18:00, then a soccer field supervisor shift from 19:00 to 22:00.</textarea>
+          </div>
+
+          <div>
+            <label for="endpoint">Serverless parser URL</label>
+            <input id="endpoint" type="url" value="/api/parse-schedule" placeholder="https://your-site.com/api/parse-schedule">
+          </div>
+
+          <p class="hint" id="timeHint"></p>
+          <button class="primary" id="parseButton" type="button">
+            <span class="icon" aria-hidden="true">⚡</span>Parse schedule
+          </button>
+          <p class="hint">Secure parser endpoint. OpenAI key stays serverless.</p>
+        </div>
+      </section>
+
+      <section class="pane" aria-labelledby="eventsTitle">
+        <div class="events-header">
+          <h2 id="eventsTitle">Parsed Schedule</h2>
+          <span class="count" id="eventCount">0 events</span>
+        </div>
+        <div id="eventsMount" class="empty">No events parsed yet. Dump your chaos on the left.</div>
+        <div class="panel-actions actions" aria-label="Schedule actions">
+          <button class="primary" id="downloadButton" type="button" disabled>
+            <span class="icon" aria-hidden="true">▣</span>Export (.ics)
+          </button>
+          <button id="clearButton" type="button">
+            <span class="icon" aria-hidden="true">×</span>Clear
+          </button>
+        </div>
+      </section>
+    </main>
+
+    <footer class="bottom">
+      <div class="footer-brand">Chaos Manager © 2024</div>
+      <nav class="footer-nav" aria-label="Footer">
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+      </nav>
+      <section class="json-store" aria-labelledby="jsonTitle">
+        <label id="jsonTitle" for="jsonPreview">JSON preview</label>
+        <pre id="jsonPreview">[]</pre>
+      </section>
+    </footer>
+  </div>
+
+  <script>
+    const state = {
+      events: [],
+      timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC"
+    };
+
+    const els = {
+      brainDump: document.querySelector("#brainDump"),
+      endpoint: document.querySelector("#endpoint"),
+      parseButton: document.querySelector("#parseButton"),
+      downloadButton: document.querySelector("#downloadButton"),
+      clearButton: document.querySelector("#clearButton"),
+      eventsMount: document.querySelector("#eventsMount"),
+      eventCount: document.querySelector("#eventCount"),
+      jsonPreview: document.querySelector("#jsonPreview"),
+      status: document.querySelector("#status"),
+      statusText: document.querySelector("#statusText"),
+      timeHint: document.querySelector("#timeHint")
+    };
+
+    const parserSystemPrompt = [
+      "You parse messy natural-language schedules into JSON only.",
+      "Return a JSON array of one-time events.",
+      "Each event must include title, startTime, endTime, and description.",
+      "Use ISO 8601 local datetime strings with timezone offset when possible.",
+      "Resolve relative dates using the provided referenceDate and timeZone.",
+      "Do not include recurring rules yet."
+    ].join(" ");
+
+    function setStatus(message, tone = "ready") {
+      els.status.dataset.tone = tone;
+      els.statusText.textContent = message;
+    }
+
+    function updateTimeHint() {
+      const now = new Date();
+      els.timeHint.textContent = `Current time: ${now.toLocaleString([], {
+        dateStyle: "medium",
+        timeStyle: "short"
+      })} (${state.timeZone})`;
+    }
+
+    function normalizeEvent(raw, index) {
+      const title = String(raw.title || raw.name || `Untitled event ${index + 1}`).trim();
+      const startValue = raw.startTime || raw.start || raw.startsAt;
+      const endValue = raw.endTime || raw.end || raw.endsAt;
+      const start = new Date(startValue);
+      const end = new Date(endValue);
+
+      if (!title || Number.isNaN(start.getTime()) || Number.isNaN(end.getTime())) {
+        throw new Error(`Event ${index + 1} is missing a valid title, startTime, or endTime.`);
+      }
+
+      if (end <= start) {
+        throw new Error(`Event "${title}" ends before it starts.`);
+      }
+
+      return {
+        id: crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${index}`,
+        title,
+        startTime: start.toISOString(),
+        endTime: end.toISOString(),
+        description: String(raw.description || "").trim()
+      };
+    }
+
+    function extractEventsFromResponse(payload) {
+      if (Array.isArray(payload)) return payload;
+      if (Array.isArray(payload.events)) return payload.events;
+
+      const text = payload.output_text || payload.text || payload.content || payload.message;
+      if (typeof text === "string") {
+        return JSON.parse(text);
+      }
+
+      throw new Error("Parser response must be a JSON array or an object with an events array.");
+    }
+
+    async function parseSchedule() {
+      const text = els.brainDump.value.trim();
+      const endpoint = els.endpoint.value.trim();
+
+      if (!text) {
+        setStatus("Add a brain dump first", "error");
+        els.brainDump.focus();
+        return;
+      }
+
+      if (!endpoint) {
+        setStatus("Add the serverless parser URL", "error");
+        els.endpoint.focus();
+        return;
+      }
+
+      setStatus("Parsing", "busy");
+      els.parseButton.disabled = true;
+
+      try {
+        const response = await fetch(endpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            text,
+            referenceDate: new Date().toISOString(),
+            timeZone: state.timeZone,
+            systemPrompt: parserSystemPrompt,
+            schema: {
+              type: "array",
+              items: {
+                type: "object",
+                required: ["title", "startTime", "endTime", "description"],
+                properties: {
+                  title: { type: "string" },
+                  startTime: { type: "string" },
+                  endTime: { type: "string" },
+                  description: { type: "string" }
+                }
+              }
+            }
+          })
+        });
+
+        if (!response.ok) {
+          const errorPayload = await response.json().catch(() => null);
+          throw new Error(errorPayload?.error || `Parser request failed with ${response.status}.`);
+        }
+
+        const payload = await response.json();
+        state.events = extractEventsFromResponse(payload).map(normalizeEvent).sort(byStartTime);
+        render();
+        setStatus(`Parsed ${state.events.length} ${plural(state.events.length, "event")}`);
+      } catch (error) {
+        setStatus(error.message || "Could not parse schedule", "error");
+      } finally {
+        els.parseButton.disabled = false;
+      }
+    }
+
+    function byStartTime(a, b) {
+      return new Date(a.startTime) - new Date(b.startTime);
+    }
+
+    function plural(count, word) {
+      return count === 1 ? word : `${word}s`;
+    }
+
+    function formatDate(iso) {
+      return new Date(iso).toLocaleDateString([], {
+        weekday: "short",
+        month: "short",
+        day: "numeric",
+        year: "numeric"
+      });
+    }
+
+    function formatTimeRange(event) {
+      const start = new Date(event.startTime);
+      const end = new Date(event.endTime);
+      return `${start.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })} - ${end.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })}`;
+    }
+
+    function render() {
+      els.eventCount.textContent = `${state.events.length} ${plural(state.events.length, "event")}`;
+      els.downloadButton.disabled = state.events.length === 0;
+      els.jsonPreview.textContent = JSON.stringify(state.events.map(({ id, ...event }) => event), null, 2);
+
+      if (state.events.length === 0) {
+        els.eventsMount.className = "empty";
+        els.eventsMount.textContent = "No events parsed yet. Dump your chaos on the left.";
+        return;
+      }
+
+      els.eventsMount.className = "events";
+      els.eventsMount.innerHTML = `
+        ${state.events.map(event => `
+          <article class="event-card" data-id="${event.id}">
+            <span class="event-time">${formatDate(event.startTime)} · ${formatTimeRange(event)}</span>
+            <h3 class="event-title" contenteditable="true" data-field="title">${escapeHtml(event.title)}</h3>
+            <p class="event-description" contenteditable="true" data-field="description">${escapeHtml(event.description || "Parsed from input")}</p>
+            <button class="remove" type="button" aria-label="Remove ${escapeHtml(event.title)}">
+              <span class="icon" aria-hidden="true">×</span>
+            </button>
+          </article>
+        `).join("")}
+      `;
+    }
+
+    function escapeHtml(value) {
+      return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function syncEditableCell(target) {
+      const row = target.closest("[data-id]");
+      const event = state.events.find(item => item.id === row.dataset.id);
+      const field = target.dataset.field;
+
+      if (event && field) {
+        event[field] = target.textContent.trim();
+        els.jsonPreview.textContent = JSON.stringify(state.events.map(({ id, ...item }) => item), null, 2);
+      }
+    }
+
+    function removeEvent(id) {
+      state.events = state.events.filter(event => event.id !== id);
+      render();
+      setStatus(state.events.length ? `${state.events.length} ${plural(state.events.length, "event")} ready` : "Ready");
+    }
+
+    function toIcsDate(iso) {
+      const date = new Date(iso);
+      const parts = new Intl.DateTimeFormat("en-CA", {
+        timeZone: state.timeZone,
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: false
+      }).formatToParts(date).reduce((acc, part) => {
+        acc[part.type] = part.value;
+        return acc;
+      }, {});
+
+      return `${parts.year}${parts.month}${parts.day}T${parts.hour}${parts.minute}${parts.second}`;
+    }
+
+    function escapeIcs(value) {
+      return String(value || "")
+        .replaceAll("\\", "\\\\")
+        .replaceAll(";", "\\;")
+        .replaceAll(",", "\\,")
+        .replaceAll("\r\n", "\\n")
+        .replaceAll("\n", "\\n");
+    }
+
+    function foldIcsLine(line) {
+      const limit = 75;
+      const chunks = [];
+      let rest = line;
+
+      while (rest.length > limit) {
+        chunks.push(rest.slice(0, limit));
+        rest = ` ${rest.slice(limit)}`;
+      }
+
+      chunks.push(rest);
+      return chunks.join("\r\n");
+    }
+
+    function buildIcs() {
+      const nowStamp = new Date().toISOString().replace(/[-:]/g, "").replace(/\.\d{3}Z$/, "Z");
+      const lines = [
+        "BEGIN:VCALENDAR",
+        "VERSION:2.0",
+        "PRODID:-//Chaos Manager//Schedule Export//EN",
+        "CALSCALE:GREGORIAN",
+        "METHOD:PUBLISH",
+        `X-WR-TIMEZONE:${state.timeZone}`,
+        "X-WR-CALNAME:Chaos Manager"
+      ];
+
+      state.events.forEach(event => {
+        lines.push(
+          "BEGIN:VEVENT",
+          `UID:${event.id}@chaos-manager.local`,
+          `DTSTAMP:${nowStamp}`,
+          `DTSTART;TZID=${state.timeZone}:${toIcsDate(event.startTime)}`,
+          `DTEND;TZID=${state.timeZone}:${toIcsDate(event.endTime)}`,
+          `SUMMARY:${escapeIcs(event.title)}`,
+          `DESCRIPTION:${escapeIcs(event.description)}`,
+          "END:VEVENT"
+        );
+      });
+
+      lines.push("END:VCALENDAR");
+      return `${lines.map(foldIcsLine).join("\r\n")}\r\n`;
+    }
+
+    function downloadIcs() {
+      if (state.events.length === 0) return;
+
+      const blob = new Blob([buildIcs()], { type: "text/calendar;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "chaos-manager-schedule.ics";
+      document.body.append(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
+      setStatus("Downloaded .ics");
+    }
+
+    function clearSchedule() {
+      state.events = [];
+      els.brainDump.value = "";
+      render();
+      setStatus("Ready");
+      els.brainDump.focus();
+    }
+
+    els.parseButton.addEventListener("click", parseSchedule);
+    els.downloadButton.addEventListener("click", downloadIcs);
+    els.clearButton.addEventListener("click", clearSchedule);
+    els.eventsMount.addEventListener("click", event => {
+      const button = event.target.closest(".remove");
+      if (button) removeEvent(button.closest("[data-id]").dataset.id);
+    });
+    els.eventsMount.addEventListener("input", event => {
+      if (event.target.matches("[contenteditable='true']")) syncEditableCell(event.target);
+    });
+
+    updateTimeHint();
+    render();
+  </script>
+</body>
+</html>

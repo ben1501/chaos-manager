@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Chaos Manager - Order from Chaos</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&amp;family=JetBrains+Mono:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "bauhaus-red": "#FF3333",
+                        "bauhaus-blue": "#0055FF",
+                        "bauhaus-yellow": "#FFD700",
+                        "bauhaus-bg": "#F4F4F0",
+                        "bauhaus-black": "#000000",
+                        "bauhaus-white": "#FFFFFF",
+                        "secondary-fixed-dim": "#c3c6cf",
+                        "on-surface": "#000000",
+                        "on-primary": "#ffffff",
+                        "on-tertiary-fixed": "#131e19",
+                        "on-secondary-fixed": "#181c22",
+                        "on-primary-fixed": "#0f0069",
+                        "tertiary-container": "#57635c",
+                        "on-primary-container": "#dad7ff",
+                        "primary-fixed-dim": "#c3c0ff",
+                        "surface-tint": "#4d44e3",
+                        "tertiary": "#3f4b45",
+                        "surface-container-highest": "#d3e4fe",
+                        "primary-container": "#FF3333",
+                        "background": "#F4F4F0",
+                        "tertiary-fixed-dim": "#bdcac1",
+                        "secondary-fixed": "#dfe2eb",
+                        "inverse-primary": "#c3c0ff",
+                        "surface-bright": "#FFFFFF",
+                        "inverse-surface": "#213145",
+                        "error-container": "#ffdad6",
+                        "error": "#ba1a1a",
+                        "primary-fixed": "#e2dfff",
+                        "on-secondary-fixed-variant": "#43474e",
+                        "surface-dim": "#cbdbf5",
+                        "secondary-container": "#dfe2eb",
+                        "on-tertiary-container": "#d2dfd6",
+                        "surface": "#FFFFFF",
+                        "on-background": "#000000",
+                        "surface-container-high": "#dce9ff",
+                        "on-tertiary-fixed-variant": "#3e4943",
+                        "tertiary-fixed": "#d9e6dd",
+                        "on-secondary": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-variant": "#d3e4fe",
+                        "outline-variant": "#000000",
+                        "inverse-on-surface": "#eaf1ff",
+                        "surface-container": "#e5eeff",
+                        "on-error": "#ffffff",
+                        "surface-container-low": "#eff4ff",
+                        "on-primary-fixed-variant": "#3323cc",
+                        "on-secondary-container": "#61646c",
+                        "primary": "#0055FF",
+                        "on-tertiary": "#ffffff",
+                        "secondary": "#5b5e66",
+                        "outline": "#000000",
+                        "on-error-container": "#93000a",
+                        "on-surface-variant": "#333333"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0px",
+                        "lg": "0px",
+                        "xl": "0px",
+                        "full": "0px"
+                    },
+                    "spacing": {
+                        "container-max": "1200px",
+                        "margin-desktop": "40px",
+                        "margin-mobile": "16px",
+                        "gutter": "24px",
+                        "unit": "4px",
+                        "stack-md": "16px",
+                        "stack-lg": "32px",
+                        "stack-sm": "8px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Space Grotesk"],
+                        "body-md": ["Space Grotesk"],
+                        "headline-lg": ["Space Grotesk"],
+                        "body-sm": ["Space Grotesk"],
+                        "body-lg": ["Space Grotesk"],
+                        "label-mono": ["JetBrains Mono"],
+                        "time-display": ["Space Grotesk"],
+                        "headline-lg-mobile": ["Space Grotesk"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["20px", { "lineHeight": "1.4", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "500" }],
+                        "headline-lg": ["40px", { "lineHeight": "1.1", "letterSpacing": "-0.03em", "fontWeight": "800" }],
+                        "body-sm": ["14px", { "lineHeight": "1.5", "fontWeight": "500" }],
+                        "body-lg": ["20px", { "lineHeight": "1.6", "fontWeight": "500" }],
+                        "label-mono": ["12px", { "lineHeight": "1.4", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "time-display": ["16px", { "lineHeight": "1", "letterSpacing": "0.02em", "fontWeight": "700" }],
+                        "headline-lg-mobile": ["32px", { "lineHeight": "1.1", "letterSpacing": "-0.03em", "fontWeight": "800" }]
+                    },
+                    "boxShadow": {
+                        "brutal": "4px 4px 0px 0px rgba(0,0,0,1)",
+                        "brutal-lg": "8px 8px 0px 0px rgba(0,0,0,1)",
+                        "brutal-sm": "2px 2px 0px 0px rgba(0,0,0,1)"
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Space Grotesk', sans-serif; background-color: #F4F4F0; }
+        .hero-pattern {
+            background-color: #FFFFFF;
+            background-image: radial-gradient(#000000 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+    </style>
+</head>
+<body class="bg-bauhaus-bg text-on-surface min-h-screen flex flex-col">
+<!-- TopAppBar -->
+<header class="bg-surface w-full fixed top-0 z-50 border-b-4 border-bauhaus-black">
+<div class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-4 max-w-container-max mx-auto">
+<div class="font-headline-md text-headline-md font-bold text-on-surface uppercase tracking-wider">Chaos Manager</div>
+<div class="flex items-center gap-gutter">
+<button aria-label="Help" class="hover:bg-bauhaus-yellow transition-colors p-2 text-on-surface border-2 border-transparent hover:border-bauhaus-black hover:shadow-brutal-sm">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+</div>
+</div>
+</header>
+<main class="flex-grow pt-24 pb-stack-lg flex flex-col items-center w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+<!-- Hero Section -->
+<section class="w-full py-20 md:py-32 flex flex-col items-center text-center gap-stack-lg hero-pattern border-4 border-bauhaus-black shadow-brutal-lg mb-stack-lg relative">
+<div class="absolute inset-0 bg-white/80 pointer-events-none"></div>
+<div class="max-w-3xl flex flex-col gap-stack-md relative z-10 p-8 bg-white border-4 border-bauhaus-black shadow-brutal mx-4">
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-on-surface uppercase">Turn your schedule chaos into order.</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto">Paste your messy notes, brain dumps, and plans. We'll turn them into a structured calendar in seconds.</p>
+<div class="mt-4">
+<button class="bg-bauhaus-red text-white font-bold px-8 py-4 border-4 border-bauhaus-black shadow-brutal hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-brutal-sm transition-all duration-200 uppercase tracking-wide">
+                Start Organizing
+            </button>
+</div>
+</div>
+</section>
+<!-- Before/After Visual -->
+<section class="w-full flex flex-col md:flex-row gap-gutter mb-32 items-stretch">
+<!-- Before Card -->
+<div class="flex-1 bg-bauhaus-yellow border-4 border-bauhaus-black shadow-brutal-lg p-gutter flex flex-col gap-stack-sm relative overflow-hidden group">
+<div class="font-label-mono text-label-mono text-bauhaus-black mb-2 font-bold border-b-2 border-bauhaus-black pb-2 inline-block w-max">RAW INPUT</div>
+<p class="font-body-md text-body-md text-bauhaus-black whitespace-pre-line mt-2 font-medium">
+                    ok so tomorrow i have a meeting with sarah at 10am about the design docs. then i need to call the plumber sometime around noon. don't forget to pick up groceries after work, maybe 5:30ish.
+                </p>
+</div>
+<!-- Arrow -->
+<div class="hidden md:flex items-center justify-center text-bauhaus-black">
+<span class="material-symbols-outlined text-6xl font-bold">arrow_forward</span>
+</div>
+<div class="flex md:hidden items-center justify-center text-bauhaus-black py-4">
+<span class="material-symbols-outlined text-6xl font-bold transform rotate-90">arrow_forward</span>
+</div>
+<!-- After Card -->
+<div class="flex-1 bg-bauhaus-white border-4 border-bauhaus-black shadow-brutal-lg p-gutter flex flex-col gap-stack-sm relative">
+<div class="font-label-mono text-label-mono text-bauhaus-blue mb-2 flex items-center gap-2 font-bold border-b-2 border-bauhaus-blue pb-2 w-max">
+<span class="w-3 h-3 bg-bauhaus-blue border-2 border-bauhaus-black animate-pulse"></span>
+                    PARSED SCHEDULE
+                </div>
+<div class="flex flex-col gap-4 mt-2">
+<div class="flex gap-4 p-4 border-4 border-bauhaus-black bg-white shadow-brutal border-l-8 border-l-bauhaus-red">
+<div class="font-time-display text-time-display text-on-surface w-20 pt-1 border-r-2 border-bauhaus-black pr-2">10:00 AM</div>
+<div class="pl-2">
+<div class="font-body-md text-body-md font-bold text-on-surface">Meeting with Sarah</div>
+<div class="font-label-mono text-label-mono text-bauhaus-black mt-1 bg-bauhaus-yellow inline-block px-1 border border-bauhaus-black">Design Docs</div>
+</div>
+</div>
+<div class="flex gap-4 p-4 border-4 border-bauhaus-black bg-white shadow-brutal border-l-8 border-l-bauhaus-blue">
+<div class="font-time-display text-time-display text-on-surface w-20 pt-1 border-r-2 border-bauhaus-black pr-2">12:00 PM</div>
+<div class="pl-2">
+<div class="font-body-md text-body-md font-bold text-on-surface">Call Plumber</div>
+</div>
+</div>
+<div class="flex gap-4 p-4 border-4 border-bauhaus-black bg-white shadow-brutal border-l-8 border-l-bauhaus-yellow">
+<div class="font-time-display text-time-display text-on-surface w-20 pt-1 border-r-2 border-bauhaus-black pr-2">5:30 PM</div>
+<div class="pl-2">
+<div class="font-body-md text-body-md font-bold text-on-surface">Pick up groceries</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- How It Works Section -->
+<section class="w-full flex flex-col items-center gap-stack-lg mb-32">
+<h2 class="font-headline-md text-headline-lg text-on-surface uppercase border-b-4 border-bauhaus-black pb-2 inline-block">How it Works</h2>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter w-full mt-8"><!-- Step 1 -->
+<div class="flex flex-col gap-stack-sm bg-white p-6 border-4 border-bauhaus-black shadow-brutal text-center items-center">
+<div class="w-16 h-16 bg-bauhaus-yellow border-4 border-bauhaus-black shadow-brutal flex items-center justify-center text-bauhaus-black mb-4">
+<span class="material-symbols-outlined text-3xl">edit_note</span>
+</div>
+<h3 class="font-body-lg text-body-lg font-bold text-on-surface uppercase">Dump your thoughts</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant font-medium mt-2">Type naturally without worrying about formatting.</p>
+</div>
+<!-- Step 2 -->
+<div class="flex flex-col gap-stack-sm bg-white p-6 border-4 border-bauhaus-black shadow-brutal text-center items-center">
+<div class="w-16 h-16 bg-bauhaus-blue border-4 border-bauhaus-black shadow-brutal flex items-center justify-center text-white mb-4">
+<span class="material-symbols-outlined text-3xl">psychology</span>
+</div>
+<h3 class="font-body-lg text-body-lg font-bold text-on-surface uppercase">AI Parsing</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant font-medium mt-2">Our LLM understands times, dates, and intent.</p>
+</div>
+<!-- Step 3 -->
+<div class="flex flex-col gap-stack-sm bg-white p-6 border-4 border-bauhaus-black shadow-brutal text-center items-center">
+<div class="w-16 h-16 bg-bauhaus-red border-4 border-bauhaus-black shadow-brutal flex items-center justify-center text-white mb-4">
+<span class="material-symbols-outlined text-3xl">download</span>
+</div>
+<h3 class="font-body-lg text-body-lg font-bold text-on-surface uppercase">Export &amp; Go</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant font-medium mt-2">Download an .ics file for Google, Apple, or Outlook.</p>
+</div></div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-white border-t-4 border-bauhaus-black w-full mt-auto">
+<div class="flex flex-col md:flex-row justify-between items-center w-full p-gutter max-w-container-max mx-auto py-8">
+<div class="font-headline-md text-headline-md font-bold text-bauhaus-black uppercase tracking-wider mb-4 md:mb-0">
+                Chaos Manager © 2024
+            </div>
+<div class="flex gap-gutter">
+<a class="font-label-mono text-label-mono text-bauhaus-black hover:bg-bauhaus-yellow px-2 py-1 border-2 border-transparent hover:border-bauhaus-black hover:shadow-brutal-sm transition-all focus:ring-2 focus:ring-bauhaus-blue" href="#">Privacy</a>
+<a class="font-label-mono text-label-mono text-bauhaus-black hover:bg-bauhaus-yellow px-2 py-1 border-2 border-transparent hover:border-bauhaus-black hover:shadow-brutal-sm transition-all focus:ring-2 focus:ring-bauhaus-blue" href="#">Terms</a>
+</div>
+</div>
+</footer>
+</body></html>

@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Chaos Manager - Order from Chaos</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&amp;family=JetBrains+Mono:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-fixed-dim": "#c3c6cf",
+                        "on-surface": "#0b1c30",
+                        "on-primary": "#ffffff",
+                        "on-tertiary-fixed": "#131e19",
+                        "on-secondary-fixed": "#181c22",
+                        "on-primary-fixed": "#0f0069",
+                        "tertiary-container": "#57635c",
+                        "on-primary-container": "#dad7ff",
+                        "primary-fixed-dim": "#c3c0ff",
+                        "surface-tint": "#4d44e3",
+                        "tertiary": "#3f4b45",
+                        "surface-container-highest": "#d3e4fe",
+                        "primary-container": "#4f46e5",
+                        "background": "#f8f9ff",
+                        "tertiary-fixed-dim": "#bdcac1",
+                        "secondary-fixed": "#dfe2eb",
+                        "inverse-primary": "#c3c0ff",
+                        "surface-bright": "#f8f9ff",
+                        "inverse-surface": "#213145",
+                        "error-container": "#ffdad6",
+                        "error": "#ba1a1a",
+                        "primary-fixed": "#e2dfff",
+                        "on-secondary-fixed-variant": "#43474e",
+                        "surface-dim": "#cbdbf5",
+                        "secondary-container": "#dfe2eb",
+                        "on-tertiary-container": "#d2dfd6",
+                        "surface": "#f8f9ff",
+                        "on-background": "#0b1c30",
+                        "surface-container-high": "#dce9ff",
+                        "on-tertiary-fixed-variant": "#3e4943",
+                        "tertiary-fixed": "#d9e6dd",
+                        "on-secondary": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-variant": "#d3e4fe",
+                        "outline-variant": "#c7c4d8",
+                        "inverse-on-surface": "#eaf1ff",
+                        "surface-container": "#e5eeff",
+                        "on-error": "#ffffff",
+                        "surface-container-low": "#eff4ff",
+                        "on-primary-fixed-variant": "#3323cc",
+                        "on-secondary-container": "#61646c",
+                        "primary": "#3525cd",
+                        "on-tertiary": "#ffffff",
+                        "secondary": "#5b5e66",
+                        "outline": "#777587",
+                        "on-error-container": "#93000a",
+                        "on-surface-variant": "#464555"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "container-max": "1200px",
+                        "margin-desktop": "40px",
+                        "margin-mobile": "16px",
+                        "gutter": "24px",
+                        "unit": "4px",
+                        "stack-md": "16px",
+                        "stack-lg": "32px",
+                        "stack-sm": "8px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Geist"],
+                        "body-md": ["Geist"],
+                        "headline-lg": ["Geist"],
+                        "body-sm": ["Geist"],
+                        "body-lg": ["Geist"],
+                        "label-mono": ["JetBrains Mono"],
+                        "time-display": ["Geist"],
+                        "headline-lg-mobile": ["Geist"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["20px", { "lineHeight": "1.4", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "body-sm": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "label-mono": ["12px", { "lineHeight": "1.4", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "time-display": ["14px", { "lineHeight": "1", "letterSpacing": "0.02em", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Geist', sans-serif; }
+        .hero-pattern {
+            background-color: #f8f9ff;
+            background-image: radial-gradient(#c7c4d8 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface min-h-screen flex flex-col">
+<!-- TopAppBar -->
+<header class="bg-surface dark:bg-surface border-b border-outline-variant dark:border-outline-variant w-full fixed top-0 z-50">
+<div class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-4 max-w-container-max mx-auto">
+<div class="font-headline-md text-headline-md font-bold text-on-surface dark:text-on-surface">Chaos Manager</div>
+<div class="flex items-center gap-gutter">
+<button aria-label="Help" class="hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-colors rounded-full p-2 text-primary dark:text-primary-fixed-dim">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+</div>
+</div>
+</header>
+<main class="flex-grow pt-24 pb-stack-lg flex flex-col items-center w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+<!-- Hero Section -->
+<section class="w-full py-20 md:py-32 flex flex-col items-center text-center gap-stack-lg hero-pattern rounded-xl border border-outline-variant/30 mb-stack-lg">
+<div class="max-w-3xl flex flex-col gap-stack-md">
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-on-surface">Turn your schedule chaos into order.</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto">Paste your messy notes, brain dumps, and plans. We'll turn them into a structured calendar in seconds.</p>
+</div>
+<button class="bg-primary-container text-on-primary font-bold px-8 py-4 rounded-full hover:bg-primary transition-colors duration-200">
+                Start Organizing
+            </button>
+</section>
+<!-- Before/After Visual -->
+<section class="w-full flex flex-col md:flex-row gap-gutter mb-32 items-stretch">
+<!-- Before Card -->
+<div class="flex-1 bg-surface-container-lowest border border-outline-variant rounded-full p-gutter flex flex-col gap-stack-sm relative overflow-hidden group">
+<div class="font-label-mono text-label-mono text-secondary mb-2">RAW INPUT</div>
+<p class="font-body-md text-body-md text-on-surface-variant whitespace-pre-line opacity-70">
+                    ok so tomorrow i have a meeting with sarah at 10am about the design docs. then i need to call the plumber sometime around noon. don't forget to pick up groceries after work, maybe 5:30ish.
+                </p>
+<div class="absolute inset-0 bg-gradient-to-b from-transparent to-surface-container-lowest pointer-events-none"></div>
+</div>
+<!-- Arrow -->
+<div class="hidden md:flex items-center justify-center text-outline-variant">
+<span class="material-symbols-outlined text-4xl">arrow_forward</span>
+</div>
+<div class="flex md:hidden items-center justify-center text-outline-variant py-4">
+<span class="material-symbols-outlined text-4xl transform rotate-90">arrow_forward</span>
+</div>
+<!-- After Card -->
+<div class="flex-1 bg-surface-container-lowest border border-primary-container/30 shadow-sm rounded-full p-gutter flex flex-col gap-stack-sm relative">
+<div class="font-label-mono text-label-mono text-primary mb-2 flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary-container animate-pulse"></span>
+                    PARSED SCHEDULE
+                </div>
+<div class="flex flex-col gap-3">
+<div class="flex gap-4 p-3 border border-outline-variant rounded-full bg-surface-bright border-l-4 border-l-primary-container">
+<div class="font-time-display text-time-display text-on-surface w-16 pt-1">10:00 AM</div>
+<div>
+<div class="font-body-md text-body-md font-semibold text-on-surface">Meeting with Sarah</div>
+<div class="font-label-mono text-label-mono text-secondary mt-1">Design Docs</div>
+</div>
+</div>
+<div class="flex gap-4 p-3 border border-outline-variant rounded-full bg-surface-bright border-l-4 border-l-secondary-fixed-dim">
+<div class="font-time-display text-time-display text-on-surface w-16 pt-1">12:00 PM</div>
+<div>
+<div class="font-body-md text-body-md font-semibold text-on-surface">Call Plumber</div>
+</div>
+</div>
+<div class="flex gap-4 p-3 border border-outline-variant rounded-full bg-surface-bright border-l-4 border-l-secondary-fixed-dim">
+<div class="font-time-display text-time-display text-on-surface w-16 pt-1">5:30 PM</div>
+<div>
+<div class="font-body-md text-body-md font-semibold text-on-surface">Pick up groceries</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- How It Works Section -->
+<section class="w-full flex flex-col items-center gap-stack-lg mb-32">
+<h2 class="font-headline-md text-headline-md text-on-surface">How it Works</h2>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter w-full"><!-- Step 1 -->
+<div class="flex flex-col gap-stack-sm bg-surface-container-low p-6 rounded-full border border-outline-variant/50 text-center items-center">
+<div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center text-primary-container mb-2">
+<span class="material-symbols-outlined">edit_note</span>
+</div>
+<h3 class="font-body-lg text-body-lg font-semibold text-on-surface">Dump your thoughts</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Type naturally without worrying about formatting.</p>
+</div>
+<!-- Step 2 -->
+<div class="flex flex-col gap-stack-sm bg-surface-container-low p-6 rounded-full border border-outline-variant/50 text-center items-center">
+<div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center text-primary-container mb-2">
+<span class="material-symbols-outlined">psychology</span>
+</div>
+<h3 class="font-body-lg text-body-lg font-semibold text-on-surface">AI Parsing</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Our LLM understands times, dates, and intent.</p>
+</div>
+<!-- Step 3 -->
+<div class="flex flex-col gap-stack-sm bg-surface-container-low p-6 rounded-full border border-outline-variant/50 text-center items-center">
+<div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center text-primary-container mb-2">
+<span class="material-symbols-outlined">download</span>
+</div>
+<h3 class="font-body-lg text-body-lg font-semibold text-on-surface">Export &amp; Go</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Download an .ics file for Google, Apple, or Outlook.</p>
+</div></div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-low dark:bg-surface-container-low w-full mt-auto">
+<div class="flex flex-col md:flex-row justify-between items-center w-full p-gutter max-w-container-max mx-auto mt-stack-lg">
+<div class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed-dim mb-4 md:mb-0">
+                Chaos Manager © 2024
+            </div>
+<div class="flex gap-gutter">
+<a class="font-label-mono text-label-mono text-secondary dark:text-secondary-fixed hover:text-primary dark:hover:text-primary-fixed-dim transition-colors focus:ring-2 focus:ring-primary underline" href="#">Privacy</a>
+<a class="font-label-mono text-label-mono text-secondary dark:text-secondary-fixed hover:text-primary dark:hover:text-primary-fixed-dim transition-colors focus:ring-2 focus:ring-primary underline" href="#">Terms</a>
+</div>
+</div>
+</footer>
+</body></html>

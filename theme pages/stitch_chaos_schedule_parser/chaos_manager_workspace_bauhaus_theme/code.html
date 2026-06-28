@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Chaos Manager</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "primary-fixed-dim": "#c3c0ff",
+                      "surface-tint": "#4d44e3",
+                      "surface-container-highest": "#d3e4fe",
+                      "tertiary": "#3f4b45",
+                      "background": "#f8f9ff",
+                      "primary-container": "#e62e2d",
+                      "inverse-primary": "#c3c0ff",
+                      "tertiary-fixed-dim": "#bdcac1",
+                      "secondary-fixed": "#dfe2eb",
+                      "surface-bright": "#f8f9ff",
+                      "inverse-surface": "#213145",
+                      "error-container": "#ffdad6",
+                      "error": "#ba1a1a",
+                      "primary-fixed": "#e2dfff",
+                      "on-secondary-fixed-variant": "#43474e",
+                      "surface-dim": "#cbdbf5",
+                      "secondary-fixed-dim": "#c3c6cf",
+                      "on-surface": "#000000",
+                      "on-primary": "#ffffff",
+                      "on-tertiary-fixed": "#131e19",
+                      "on-secondary-fixed": "#181c22",
+                      "on-primary-fixed": "#0f0069",
+                      "tertiary-container": "#57635c",
+                      "on-primary-container": "#ffffff",
+                      "on-secondary": "#ffffff",
+                      "surface-container-lowest": "#ffffff",
+                      "surface-variant": "#d3e4fe",
+                      "outline-variant": "#000000",
+                      "inverse-on-surface": "#eaf1ff",
+                      "surface-container": "#e5eeff",
+                      "on-error": "#ffffff",
+                      "surface-container-low": "#eff4ff",
+                      "on-primary-fixed-variant": "#3323cc",
+                      "on-secondary-container": "#61646c",
+                      "primary": "#000000",
+                      "on-tertiary": "#ffffff",
+                      "secondary": "#5b5e66",
+                      "outline": "#000000",
+                      "on-error-container": "#93000a",
+                      "on-surface-variant": "#000000",
+                      "secondary-container": "#dfe2eb",
+                      "on-tertiary-container": "#d2dfd6",
+                      "surface": "#ffffff",
+                      "on-background": "#000000",
+                      "surface-container-high": "#dce9ff",
+                      "on-tertiary-fixed-variant": "#3e4943",
+                      "tertiary-fixed": "#d9e6dd"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0px",
+                      "lg": "0px",
+                      "xl": "0px",
+                      "full": "0px"
+              },
+              "spacing": {
+                      "margin-mobile": "16px",
+                      "gutter": "24px",
+                      "unit": "4px",
+                      "stack-lg": "32px",
+                      "stack-md": "16px",
+                      "container-max": "1200px",
+                      "margin-desktop": "40px",
+                      "stack-sm": "8px"
+              },
+              "fontFamily": {
+                      "label-mono": [
+                              "JetBrains Mono"
+                      ],
+                      "time-display": [
+                              "Space Grotesk"
+                      ],
+                      "headline-lg-mobile": [
+                              "Space Grotesk"
+                      ],
+                      "headline-lg": [
+                              "Space Grotesk"
+                      ],
+                      "headline-md": [
+                              "Space Grotesk"
+                      ],
+                      "body-md": [
+                              "Space Grotesk"
+                      ],
+                      "body-lg": [
+                              "Space Grotesk"
+                      ],
+                      "body-sm": [
+                              "Space Grotesk"
+                      ]
+              },
+              "fontSize": {
+                      "label-mono": [
+                              "12px",
+                              {
+                                      "lineHeight": "1.4",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "time-display": [
+                              "14px",
+                              {
+                                      "lineHeight": "1",
+                                      "letterSpacing": "0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "24px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-md": [
+                              "20px",
+                              {
+                                      "lineHeight": "1.4",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "1.5",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-sm": [
+                              "14px",
+                              {
+                                      "lineHeight": "1.5",
+                                      "fontWeight": "600"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+        .pulse-bar {
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, #000, transparent);
+            background-size: 200% 100%;
+            animation: pulse-loading 1.5s infinite;
+        }
+
+        @keyframes pulse-loading {
+            0% { background-position: 100% 0; }
+            100% { background-position: -100% 0; }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .neo-shadow {
+            box-shadow: 4px 4px 0px 0px rgba(0,0,0,1);
+        }
+        
+        .neo-shadow-sm {
+            box-shadow: 2px 2px 0px 0px rgba(0,0,0,1);
+        }
+
+        .neo-button:active {
+            transform: translate(4px, 4px);
+            box-shadow: 0px 0px 0px 0px rgba(0,0,0,1);
+        }
+      </style>
+</head>
+<body class="bg-surface text-on-surface min-h-screen flex flex-col font-body-md border-t-[8px] border-primary-container">
+<!-- TopAppBar -->
+<header class="bg-surface border-b-[3px] border-outline full-width top-0 w-full">
+<div class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-4 max-w-container-max mx-auto">
+<div class="font-headline-md text-headline-md uppercase tracking-wider font-bold text-on-surface">Chaos Manager</div>
+<div class="flex items-center gap-4">
+<button aria-label="Help" class="text-on-surface hover:bg-surface-container-low transition-colors border-[2px] border-outline p-2 neo-shadow-sm">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Main Workspace -->
+<main class="flex-grow w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-stack-lg flex flex-col md:flex-row gap-gutter">
+<!-- Left: Brain Dump (Input) -->
+<section class="flex-1 flex flex-col gap-stack-sm md:w-7/12">
+<h1 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface mb-4 uppercase">Input</h1>
+<div class="relative flex-grow flex flex-col bg-surface border-[3px] border-outline focus-within:border-primary-container transition-all p-4 neo-shadow">
+<textarea class="w-full h-full min-h-[300px] md:min-h-[500px] resize-none border-none focus:ring-0 bg-transparent font-body-lg text-body-lg text-on-surface placeholder:text-outline placeholder:opacity-70" id="brain-dump" placeholder="Paste your messy schedule here... e.g., 'Tutoring tomorrow 4-6pm, soccer at 7pm'."></textarea>
+</div>
+<button class="mt-stack-md w-full md:w-auto self-start h-[56px] bg-primary-container text-on-primary font-headline-md text-headline-md uppercase border-[3px] border-outline px-8 transition-transform neo-shadow neo-button flex items-center justify-center gap-2" id="parse-btn">
+<span class="material-symbols-outlined" data-icon="bolt">bolt</span>
+                Parse Schedule
+            </button>
+</section>
+<!-- Right: Parsed Schedule (Output) -->
+<section class="flex-1 flex flex-col gap-stack-sm md:w-5/12 bg-surface p-6 border-[3px] border-outline neo-shadow mt-stack-lg md:mt-0">
+<div class="flex justify-between items-center mb-4 pb-4 border-b-[3px] border-outline">
+<h2 class="font-headline-md text-headline-md text-on-surface uppercase">Parsed Schedule</h2>
+<div class="hidden" id="loading-indicator">
+<span class="font-label-mono text-label-mono text-primary animate-pulse font-bold bg-yellow-300 px-2 py-1 border-[2px] border-outline">PROCESSING...</span>
+</div>
+</div>
+<!-- Loading Bar Container -->
+<div class="w-full h-[4px] bg-surface mb-4 hidden border-[2px] border-outline" id="loading-bar-container">
+<div class="pulse-bar"></div>
+</div>
+<div class="flex-grow overflow-y-auto pr-2 flex flex-col gap-4" id="schedule-container">
+<!-- Empty State -->
+<div class="flex flex-col items-center justify-center h-full text-center text-on-surface gap-4 py-12" id="empty-state">
+<span class="material-symbols-outlined text-5xl" data-icon="inbox">inbox</span>
+<p class="font-body-md text-body-md border-[2px] border-outline p-4 bg-blue-100 neo-shadow-sm font-bold">NO EVENTS PARSED YET.<br/>DUMP YOUR CHAOS ON THE LEFT.</p>
+</div>
+<!-- Parsed Events (Hidden initially, shown via JS) -->
+<div class="hidden flex-col gap-4" id="events-list">
+<!-- Example Event Card 1 -->
+<article class="relative bg-surface border-[3px] border-outline p-4 neo-shadow-sm fade-in overflow-hidden pl-5 group hover:bg-yellow-100 transition-colors">
+<div class="absolute left-0 top-0 bottom-0 w-[8px] bg-primary-container border-r-[3px] border-outline"></div>
+<div class="flex flex-col gap-1 ml-2">
+<span class="font-time-display text-time-display text-on-surface font-bold uppercase bg-white border-[2px] border-outline px-2 py-1 self-start">Tomorrow, 4:00 PM - 6:00 PM</span>
+<h3 class="font-headline-md text-headline-md text-on-surface mt-2">Tutoring</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant font-mono">Parsed from input</p>
+</div>
+</article>
+<!-- Example Event Card 2 -->
+<article class="relative bg-surface border-[3px] border-outline p-4 neo-shadow-sm fade-in overflow-hidden pl-5 group hover:bg-yellow-100 transition-colors" style="animation-delay: 0.1s;">
+<div class="absolute left-0 top-0 bottom-0 w-[8px] bg-blue-500 border-r-[3px] border-outline"></div>
+<div class="flex flex-col gap-1 ml-2">
+<span class="font-time-display text-time-display text-on-surface font-bold uppercase bg-white border-[2px] border-outline px-2 py-1 self-start">Tomorrow, 7:00 PM - 8:30 PM</span>
+<h3 class="font-headline-md text-headline-md text-on-surface mt-2">Soccer Practice</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant font-mono">Parsed from input</p>
+</div>
+</article>
+</div>
+</div>
+<!-- Export Action -->
+<div class="mt-stack-md pt-4 border-t-[3px] border-outline flex justify-end">
+<button class="h-[48px] px-6 font-body-md text-body-md font-bold uppercase flex items-center gap-2 transition-transform border-[3px] border-outline text-on-surface bg-surface neo-shadow cursor-not-allowed opacity-50 neo-button" disabled="" id="export-btn">
+<span class="material-symbols-outlined" data-icon="calendar_month">calendar_month</span>
+                    Export (.ics)
+                </button>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface border-t-[3px] border-outline full-width mt-stack-lg">
+<div class="flex flex-col md:flex-row justify-between items-center w-full p-gutter max-w-container-max mx-auto">
+<div class="font-headline-md text-headline-md font-bold text-on-surface uppercase tracking-wider">Chaos Manager © 2024</div>
+<nav class="flex gap-4 mt-4 md:mt-0">
+<a class="font-label-mono text-label-mono text-on-surface border-[2px] border-outline px-3 py-1 neo-shadow-sm hover:bg-yellow-300 transition-colors uppercase font-bold" href="#">Privacy</a>
+<a class="font-label-mono text-label-mono text-on-surface border-[2px] border-outline px-3 py-1 neo-shadow-sm hover:bg-yellow-300 transition-colors uppercase font-bold" href="#">Terms</a>
+</nav>
+</div>
+</footer>
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const parseBtn = document.getElementById('parse-btn');
+            const textarea = document.getElementById('brain-dump');
+            const emptyState = document.getElementById('empty-state');
+            const eventsList = document.getElementById('events-list');
+            const exportBtn = document.getElementById('export-btn');
+            const loadingIndicator = document.getElementById('loading-indicator');
+            const loadingBar = document.getElementById('loading-bar-container');
+
+            parseBtn.addEventListener('click', () => {
+                const text = textarea.value.trim();
+                if (!text) {
+                    textarea.parentElement.classList.add('border-primary-container', 'translate-x-1');
+                    setTimeout(() => textarea.parentElement.classList.remove('border-primary-container', 'translate-x-1'), 100);
+                    setTimeout(() => textarea.parentElement.classList.add('-translate-x-1'), 200);
+                    setTimeout(() => textarea.parentElement.classList.remove('-translate-x-1'), 300);
+                    return;
+                }
+
+                // UI Loading State
+                parseBtn.disabled = true;
+                parseBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                loadingIndicator.classList.remove('hidden');
+                loadingBar.classList.remove('hidden');
+                emptyState.classList.add('hidden');
+                eventsList.classList.add('hidden');
+                exportBtn.disabled = true;
+                exportBtn.classList.remove('bg-yellow-300', 'cursor-pointer', 'opacity-100');
+                exportBtn.classList.add('bg-surface', 'cursor-not-allowed', 'opacity-50');
+
+
+                // Simulate processing time
+                setTimeout(() => {
+                    loadingIndicator.classList.add('hidden');
+                    loadingBar.classList.add('hidden');
+                    eventsList.classList.remove('hidden');
+                    eventsList.classList.add('flex');
+                    
+                    parseBtn.disabled = false;
+                    parseBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+
+                    // Enable Export Button
+                    exportBtn.disabled = false;
+                    exportBtn.classList.remove('bg-surface', 'cursor-not-allowed', 'opacity-50');
+                    exportBtn.classList.add('bg-yellow-300', 'cursor-pointer', 'opacity-100');
+                    
+                }, 1500);
+            });
+        });
+    </script>
+</body></html>
