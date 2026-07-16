@@ -13,9 +13,13 @@ Chaos Manager turns messy natural-language schedule notes into structured, edita
 
 ## Live Link
 
-https://ben1501.github.io/chaos-manager/
+https://chaos-manager-ben.bbking15.chatgpt.site/
 
-The GitHub Pages frontend securely uses the public Chaos Manager parser service. The hosted app is also available at https://chaos-manager-ben.bbking15.chatgpt.site/.
+This is the working public submission link. The GitHub repository is included below as the project source.
+
+## Deployment Note
+
+GitHub Pages was tested, but it only serves static files and cannot run the server-side `/api/parse-schedule` endpoint that keeps the OpenAI key private. The repository therefore remains available for review, while the working app is hosted through the ChatGPT site deployment above.
 
 ## How To Use It
 
@@ -46,7 +50,7 @@ Schedule notes are sent to OpenAI through a server-side endpoint for parsing. Av
 - HTML, CSS, and vanilla JavaScript for the core interface
 - Node.js and a Cloudflare Worker-compatible server endpoint
 - OpenAI API for schedule parsing
-- GitHub Pages for the submitted public frontend
+- ChatGPT Sites with a Cloudflare Worker-compatible server endpoint
 
 ## Repository
 
