@@ -6,12 +6,12 @@
   <meta name="description" content="Turn messy schedule notes into a clear, exportable calendar.">
   <meta property="og:title" content="Chaos Manager">
   <meta property="og:description" content="Turn messy plans into a clear calendar.">
-  <meta property="og:image" content="/og.png">
+  <meta property="og:image" content="public/og.png">
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Chaos Manager">
   <meta name="twitter:description" content="Turn messy plans into a clear calendar.">
-  <meta name="twitter:image" content="/og.png">
+  <meta name="twitter:image" content="public/og.png">
   <title>Chaos Manager</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -755,6 +755,10 @@
       statusText: document.querySelector("#statusText"),
       timeHint: document.querySelector("#timeHint")
     };
+
+    if (window.location.hostname.endsWith(".github.io")) {
+      els.endpoint.value = "https://chaos-manager-ben.bbking15.chatgpt.site/api/parse-schedule";
+    }
 
     const parserSystemPrompt = [
       "You parse messy natural-language schedules into JSON only.",
